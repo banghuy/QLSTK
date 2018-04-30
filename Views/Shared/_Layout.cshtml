@@ -1,0 +1,178 @@
+﻿@using QLSTK.Models
+@using System.Data.Entity
+@using Microsoft.AspNet.Identity
+@{
+
+    Entities db = new Entities();
+    DateTime time = DateTime.Now;
+    var username= "khach@gmail.com";
+    if (Request.IsAuthenticated)
+    {
+        username = @User.Identity.GetUserName(); // người đang đăng nhập hiện tại
+    }
+
+    var nguoinhan = "laiquanghung@gmail.com";  // người được chọn để nhắn tin với người đăng nhập hiện tại
+    var DBusername = db.AspNetUsers.Single(d => d.Email.Equals(username));
+    var idusername = DBusername.Id;
+    var DBnguoinhan = db.AspNetUsers.Single(d => d.Email.Equals(nguoinhan));
+    var idnguoinhan = DBnguoinhan.Id;
+    var listchatboxes = db.ChatBoxes.ToList();
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body>
+
+
+    <div class="w3-bar w3-light-grey w3-border w3-top">
+        <a href="@Url.Action("Index", "Home")" class="w3-bar-item w3-button w3-mobile">Home</a>
+        <a href="@Url.Action("About", "Home")" class="w3-bar-item w3-button w3-mobile">About</a>
+        <a href="@Url.Action("Contact", "Home")" class="w3-bar-item w3-button w3-mobile">Contact</a>
+        <a href="@Url.Action("Index", "AspNetUsers")" class="w3-bar-item w3-button w3-mobile">Users </a>
+        <a href="@Url.Action("Index", "PhieuGuiTiens")" class="w3-bar-item w3-button w3-mobile">PhieuGuiTiens</a>
+        <a href="@Url.Action("Index", "PhieuRutTiens")" class="w3-bar-item w3-button w3-mobile">PhieuGuiTiens</a>
+        <a href="@Url.Action("Index", "ChatBoxes")" class="w3-bar-item w3-button w3-mobile">ChatBoxes</a>
+        <input type="text" class="w3-bar-item w3-input w3-white w3-mobile" placeholder="Search..">
+        <button class="w3-bar-item w3-button w3-green w3-mobile">Go</button>
+        @Html.Partial("_LoginPartial")
+    </div>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="w3-bottom">
+            <div class="w3-container w3-right" style="width:350px">
+                <!-- DIRECT CHAT PRIMARY -->
+                <div class="card card-primary direct-chat direct-chat-primary demo">
+                    <div class="card-header">
+                        <h3 class="card-title">Lại Quang Hưng</h3>
+
+                        <div class="card-tools">
+                            <span data-toggle="tooltip" title="3 New Messages" class="badge bg-primary">3</span>
+                            <button type="button" class="btn btn-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-toggle="tooltip" title="Contacts"
+                                    data-widget="chat-pane-toggle">
+                                <i class="fa fa-comments"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-widget="remove">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <!-- Conversations are loaded here -->
+                        <div class="direct-chat-messages" id="your_div">
+                            @foreach (var item in listchatboxes)
+                            {
+                                if (item.UserID_Gui == idnguoinhan && item.UserID_Nhan == idusername)
+                                {
+                                    <!-- LEFT  -->
+                                    <div class="direct-chat-msg">
+                                        <div class="direct-chat-info clearfix">
+                                            <span class="direct-chat-name float-left">@item.AspNetUser.HoTen</span>
+                                            <span class="direct-chat-timestamp float-right">@item.ThoiGian</span>
+                                        </div>
+                                        <!-- /.direct-chat-info -->
+                                        <img class="direct-chat-img" src="~/Content/image/@db.AspNetUsers.Single(d=>d.Id.Equals(idnguoinhan)).Avatar" alt="Message User Image">
+                                        <!-- /.direct-chat-img -->
+                                        <div class="direct-chat-text">
+                                            @item.TinNhan
+                                        </div>
+                                        <!-- /.direct-chat-text -->
+                                    </div>
+                                    <!-- /.direct-chat-msg -->
+                                }
+                                if (item.UserID_Gui == idusername && item.UserID_Nhan == idnguoinhan)
+                                {
+                                    <!-- RIGHT-->
+                                    <div class="direct-chat-msg right">
+                                        <div class="direct-chat-info clearfix">
+                                            <span class="direct-chat-name float-right">@item.AspNetUser.HoTen</span>
+                                            <span class="direct-chat-timestamp float-left">@item.ThoiGian</span>
+                                        </div>
+                                        <!-- /.direct-chat-info -->
+                                        <img class="direct-chat-img" src="~/Content/image/@db.AspNetUsers.Single(d=>d.Id.Equals(idusername)).Avatar" alt="Message User Image">
+                                        <!-- /.direct-chat-img -->
+                                        <div class="direct-chat-text">
+                                            @item.TinNhan
+                                        </div>
+                                        <!-- /.direct-chat-text -->
+                                    </div>
+                                    <!-- /.direct-chat-msg -->
+                                }
+                            }
+
+
+                        </div>
+                        <!--/.direct-chat-messages-->
+                    </div>
+                    @using (Html.BeginForm("chatadmin", "Home"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="input-group">
+                                <input type="text" name="TinNhan" placeholder="Type Message ..." class="form-control">
+                                <input type="text" name="ThoiGian" value=@DateTime.Now class="form-control w3-hide">
+                                <input type="text" name="UserID_Gui" value=@idusername class="form-control w3-hide">
+                                <input type="text" name="UserID_Nhan" value=@idnguoinhan class="form-control w3-hide">
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- /.card-footer-->
+                    }
+
+                </div>
+                <!--/.direct-chat -->
+            </div>
+            <!-- /.col -->
+        </div>
+    }
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    <script>
+        var objDiv = document.getElementById("your_div");
+        objDiv.scrollTop = objDiv.scrollHeight;
+    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <!-- AdminLTE App -->
+    <script src="~/Content/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Content/demo.js"></script>
+    <!-- jQuery -->
+    <script src="~/Content/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/bootstrap.bundle.min.js"></script>
+
+
+
+
+</body>
+</html>

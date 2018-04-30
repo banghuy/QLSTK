@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QLSTK.Models.PhieuRutTien>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SoTienRut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayRut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoTienRut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NgayRut)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.MaPhieuRut }) |
+            @Html.ActionLink("Details", "Details", new { id=item.MaPhieuRut }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.MaPhieuRut })
+        </td>
+    </tr>
+}
+
+</table>
