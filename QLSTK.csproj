@@ -253,6 +253,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\image\admin.png" />
     <Content Include="Content\adminlte.min.css" />
     <Content Include="Content\adminlte.min.js" />
     <Content Include="Content\bootstrap.bundle.min.js" />
@@ -357,6 +358,7 @@
     <Content Include="Views\PhieuRutTiens\Details.cshtml" />
     <Content Include="Views\PhieuRutTiens\Edit.cshtml" />
     <Content Include="Views\PhieuRutTiens\Index.cshtml" />
+    <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="admin\" />

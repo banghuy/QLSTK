@@ -77,7 +77,7 @@ namespace QLSTK.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("Password", ErrorMessage = "Mật khậu nhập lại không khớp")]
         public string ConfirmPassword { get; set; }
     }
 

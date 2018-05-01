@@ -68,7 +68,7 @@
     <Property Name="NgayMoSo" Type="datetime" />
     <Property Name="SoDu" Type="int" />
     <Property Name="DiaChi" Type="nvarchar(max)" />
-    <Property Name="CMND" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="CMND" Type="int" />
   </EntityType>
   <EntityType Name="ChatBox">
     <Key>

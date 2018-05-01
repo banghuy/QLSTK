@@ -111,7 +111,7 @@
     <Property Name="NgayMoSo" Type="DateTime" Precision="3" />
     <Property Name="SoDu" Type="Int32" />
     <Property Name="DiaChi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="CMND" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="CMND" Type="Int32" />
     <NavigationProperty Name="AspNetUserClaims" Relationship="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
     <NavigationProperty Name="AspNetUserLogins" Relationship="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
     <NavigationProperty Name="LoaiTietKiem" Relationship="Model.FK_AspNetUsers_LoaiTietKiem" FromRole="AspNetUser" ToRole="LoaiTietKiem" />

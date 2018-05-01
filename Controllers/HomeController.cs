@@ -15,12 +15,7 @@ namespace QLSTK.Controllers
         private Entities db = new Entities();
         public ActionResult Index()
         {
-            var username = db.AspNetUsers.Single(d => d.Email.Equals("daominhquan176@gmail.com"));
-            ViewBag.idusername = username.Id;
-            var nguoinhan = db.AspNetUsers.Single(d => d.Email.Equals("laiquanghung@gmail.com"));
-            ViewBag.idnguoinhan = nguoinhan.Id;
-            var chatBoxes = db.ChatBoxes.Include(c => c.AspNetUser).Include(c => c.AspNetUser1);
-            return View(chatBoxes.ToList());
+            return View();
         }
 
         public ActionResult About()
@@ -47,6 +42,39 @@ namespace QLSTK.Controllers
                 return RedirectToAction("Index","Home");
             }
             return RedirectToAction("Index", "Home");
+        }
+        public ActionResult Edit(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
+            if (aspNetUser == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.MaLoaiTK = new SelectList(db.LoaiTietKiems, "MaLoaiTK", "TenLoai", aspNetUser.MaLoaiTK);
+            ViewBag.MaTrangThai = new SelectList(db.LoaiTrangThais, "MaTrangThai", "TenTrangThai", aspNetUser.MaTrangThai);
+            return View(aspNetUser);
+        }
+
+        // POST: AspNetUsers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,Avatar,HoTen,MaTrangThai,MaLoaiTK,SoTienGuiBanDau,NgayMoSo,SoDu,DiaChi,CMND")] AspNetUser aspNetUser)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(aspNetUser).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.MaLoaiTK = new SelectList(db.LoaiTietKiems, "MaLoaiTK", "TenLoai", aspNetUser.MaLoaiTK);
+            ViewBag.MaTrangThai = new SelectList(db.LoaiTrangThais, "MaTrangThai", "TenTrangThai", aspNetUser.MaTrangThai);
+            return View(aspNetUser);
         }
     }
 }

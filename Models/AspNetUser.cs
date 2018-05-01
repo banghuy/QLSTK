@@ -46,7 +46,7 @@ namespace QLSTK.Models
         public Nullable<System.DateTime> NgayMoSo { get; set; }
         public Nullable<int> SoDu { get; set; }
         public string DiaChi { get; set; }
-        public Nullable<decimal> CMND { get; set; }
+        public Nullable<int> CMND { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
