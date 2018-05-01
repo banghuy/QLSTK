@@ -35,7 +35,10 @@ namespace QLSTK.Controllers
             }
             return View(chatBox);
         }
-
+        public ActionResult Chat()
+        {
+            return View();
+        }
         // GET: ChatBoxes/Create
         public ActionResult Create()
         {

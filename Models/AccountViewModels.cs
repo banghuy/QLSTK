@@ -70,7 +70,7 @@ namespace QLSTK.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "ô {0} phãi có ít nhất {2} ký tự.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -79,6 +79,11 @@ namespace QLSTK.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "Mật khậu nhập lại không khớp")]
         public string ConfirmPassword { get; set; }
+        //[Required]
+        //public string HoTen { get; set; }
+        //[Required]
+        //public string NgayMoSo { get; set; }
+
     }
 
     public class ResetPasswordViewModel

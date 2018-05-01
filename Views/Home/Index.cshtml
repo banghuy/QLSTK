@@ -21,47 +21,47 @@
     var listUser = db.AspNetUsers.Single(d=>d.Id.Equals(idusername)); // tạo danh sách User
     var DemItemNull = 0;
     var fullItem = 8;
-    var nhungthuconthieu = "";
+    List<string> nhungthuconthieu = new List<string>() ;
 
     if (listUser.HoTen == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Họ Tên|";
+        nhungthuconthieu.Add("Họ Tên");
     }
     if (listUser.MaTrangThai == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Mã Trạng Thái";
+        nhungthuconthieu.Add("Mã Trạng Thái");
     }
     if (listUser.MaLoaiTK == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Loại Tiết Kiệm";
+        nhungthuconthieu.Add("Loại Tiết Kiệm");
     }
     if (listUser.SoTienGuiBanDau == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Số Tiền Gữi Ban Đầu";
+        nhungthuconthieu.Add("Số Tiền Gữi Ban Đầu");
     }
     if (listUser.NgayMoSo == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Ngày Mở Sổ";
+        nhungthuconthieu.Add("Ngày Mở Sổ");
     }
     if (listUser.SoDu == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Số Dư|";
+        nhungthuconthieu.Add("Số Dư");
     }
     if (listUser.DiaChi == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|Địa Chỉ";
+        nhungthuconthieu.Add("Địa Chỉ");
     }
     if (listUser.CMND == null)
     {
         DemItemNull++;
-        nhungthuconthieu = nhungthuconthieu + "|CMND |";
+        nhungthuconthieu.Add("CMND");
     }
     var phantramnull = 100-(DemItemNull * 100 / fullItem);
 }
@@ -122,7 +122,7 @@
         <div class="w3-container w3-card w3-white w3-margin-bottom w3-padding-16">
             <h5>Khách Hàng</h5>
             <p>Mức độ hoàn thiện thông tin khách hàng</p>
-            @if (nhungthuconthieu == "")
+            @if (phantramnull == 100)
             {
                 <div class="w3-gray">
                     <div class="w3-container w3-center w3-padding w3-green" style="width:@phantramnull%">@phantramnull%</div>
@@ -136,24 +136,16 @@
             }
             else
             {
-                if(phantramnull<50)
-                {
                     <div class="w3-grey">
                         <div class="w3-container w3-center w3-padding w3-red" style="width:@phantramnull%">@phantramnull%</div>
                     </div>
-                }
-                else
-                {
-                    <div class="w3-grey">
-                        <div class="w3-container w3-center w3-padding w3-green" style="width:@phantramnull%">@phantramnull%</div>
+                
+                    <div class="w3-panel w3-white" style="width:400px">
+                        <h3>Warning!</h3>
+                        <p>Bạn vui lòng cập nhật đầy đủ những thông tin còn thiếu sau : @foreach (var item in nhungthuconthieu) {<span class="w3-tag w3-small w3-theme-d5">@item.ToString()</span> }</p>
                     </div>
-                }
-                <div class="w3-panel w3-white" style="width:400px">
-                    <h3>Warning!</h3>
-                    <p>Bạn vui lòng cập nhật đầy đủ những thông tin còn thiếu sau : @nhungthuconthieu</p>
-                </div>
                 <a class="w3-button w3-dark-grey" href=@Url.Action("Edit","Home", new { id = idusername })>Cập nhật thông tin <i class="fa fa-arrow-right"></i></a>
-
+                
             }
 
         </div>
